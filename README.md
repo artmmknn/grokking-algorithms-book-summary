@@ -1,8 +1,3 @@
-# grock-algorithms-book
-*Synopsis and tasks from the book "Grock Algorithms"*
-
-# Грокаем алгоритмы (конспект)
-
 # Конспект книги «Грокаем алгоритмы» Адитья Бхаргава
 
 ## Глава 1. Знакомство с алгоритмами
