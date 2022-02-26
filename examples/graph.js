@@ -1,9 +1,0 @@
-let graph = {};
-graph['you'] = ['alice', 'bob', 'clarie'];
-graph['bob'] = ['anuj', 'peggy'];
-graph['alice'] = ['peggy'];
-graph['clarie'] = ['thom', 'jonny'];
-graph['anuj'] = [];
-graph['peggy'] = [];
-graph['thom'] = [];
-graph['jonny'] = [];
