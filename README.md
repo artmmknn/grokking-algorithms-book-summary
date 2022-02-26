@@ -13,30 +13,28 @@
 3. Поиск сводится к тому, что вновь определяется значение серединного элемента в выбранной половине и сравнивается с ключом.
 4. Процесс продолжается до тех пор, пока не будет найден элемент со значением ключа или не станет пустым интервал для поиска.
 
-### Реализация алгоритма на JavaScript:
+### Реализация алгоритма на Python:
 
 ```
-function binary_search(array, item) {
-	let low = 0;
-	let high = array.length - 1;
+def binary_search(list, item):
+    low = 0
+    high = len(list) - 1
+    
+    while low <= high:
+        mid = (low + high) / 2
+	guess = list[mid]
+	if guess == item:
+	    return mid
+	if guess > item:
+	    high = mid - 1
+	else:
+	    low = mid + 1
+    return None
+    
+my_list = [1, 3, 5, 7, 9]
 
-	while (low <= high) {
-		mid = Math.floor((low + high) / 2);
-		guess = array[mid];
-
-		if (guess == item) {
-			return mid;
-		} else if (guess > item) {
-			high = mid - 1;
-		} else {
-			low = mid + 1;
-		}
-	}
-	return null;
-}
-
-my_array = [1, 3, 5, 7, 9];
-console.log(binary_search(my_array, 5));
+print binary_search(my_list, 3) # => 1
+print binary_search(my_list, -1) # => None
 ```
 
 **Линейное время** - время, когда максимальное количество попыток совпадает с размером списка.
@@ -53,35 +51,26 @@ console.log(binary_search(my_array, 5));
 2. производим обмен этого значения со значением первой неотсортированной позиции
 3. теперь сортируем хвост списка, исключив из рассмотрения уже отсортированные элементы
 
-### Реализация алгоритма на JavaScript:
+### Реализация алгоритма на Python:
 
 ```
-function findSmallest(arr) {
-	let smallest = arr[0];
-	let smallest_index = 0;
+def findSmallest(arr):
+    smallest = arr[0]
+    smallest_index = 0
+    for i in range(1, len(arr)):
+        if arr[i] < smallest:
+	    smallest = arr[i]
+	    smallest_index = i
+    return smallest_index
+    
+def selectionSort(arr):
+    newArr = []
+    for i in range(len(arr)):
+        smallest = findSmallest(arr)
+	newArr.append(arr.pop(smallest))
+    return newArr
 
-	for (let i = 1; i < arr.length; i++) {
-		if (arr[i] < smallest) {
-			smallest = arr[i];
-			smallest_index = i;
-		}
-	}
-
-	return smallest_index;
-}
-
-function selectionSort(arr) {
-	newArr = [];
-
-	for (let i = 0; i < arr.length; i++) {
-		smallest = findSmallest(arr);
-		newArr.push(arr.splice(arr.indexOf(smallest), 1));
-	}
-
-	return newArr;
-}
-
-console.log(selectionSort([5, 3, 6, 2, 10]));
+print selectionSort([5, 3, 6, 2, 10])
 ```
 
 *Чтение*: массивы - O(1) списки - O(n)*Вставка*: массивы - O(n) списки - O(1)*Удаление*: массивы - O(n) списки - O(1)
@@ -127,26 +116,21 @@ function sum(arr) {
 2. *Разбиение*: перераспределение элементов в массиве таким образом, что элементы, меньшие опорного, помещаются перед ним, а большие или равные - после.
 3. Рекурсивно применить первые два шага к двум подмассивам слева и справа от опорного элемента. Рекурсия не применяется к массиву, в котором только один элемент или отсутствуют элементы.
 
-### Реализация алгоритма на JavaScript:
+### Реализация алгоритма на Python:
 
 ```
-function quicksort(array) {
-	if (array.length < 2) return array;
+def quicksort(array):
+    if len(array) < 2:
+        return array
+    else:
+        pivot = array[0]
+	less = [i for i in array[1:] if i <= pivot]
+	
+	grater = [i for i in array[1:] if i > pivot]
+	
+	return quicksort(less) + [pivot] + quicksort(greater)
 
-	let pivot = array[0];
-	const left = [];
-	const right = [];
-
-	for (let i = 1; i < array.length; i++) {
-		if (pivot > array[i]) {
-			left.push(array[i]);
-		} else {
-			right.push(array[i]);
-		}
-	}
-
-	return quicksort(left).concat(pivot, quicksort(right));
-}
+print quicksort([10, 5, 2, 3])
 ```
 
 **Совет:** когда вы пишите рекурсивную функцию, в которой задействован массив, базовым случаем часто оказывается пустой массив или массив из одного элемента.
@@ -199,45 +183,36 @@ function quicksort(array) {
 3. Если очередь пуста, то все узлы связного графа были просмотрены, следовательно, целевой узел недостижим из начального; завершить поиск с результатом «неудача».
 4. Вернуться к п. 2.
 
-### Реализация алгоритма на JavaScript:
+### Реализация алгоритма на Python:
 
 ```
-let graph = {};
+from collections import deque
 
-graph['you'] = ['alice', 'bob', 'clarie'];
-graph['bob'] = ['anuj', 'peggy'];
-graph['alice'] = ['peggy'];
-graph['clarie'] = ['thom', 'jonny'];
-graph['anuj'] = [];
-graph['peggy'] = [];
-graph['thom'] = [];
-graph['jonny'] = [];
+graph = {}
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
 
-function person_is_seller(name) {
-	return name[name.length - 1] == 'm';
-}
-
-function search(name) {
-	let search_queue = [];
-	search_queue = search_queue.concat(graph[name]);
-	let searched = [];
-
-	while (search_queue) {
-		person = search_queue.shift();
-		if (!searched.includes(person)) {
-			if (person_is_seller(person)) {
-				console.log(person + ' is a mango seller!');
-				return true;
-			} else {
-				search_queue = search_queue.concat(graph[person]);
-				searched.push(person);
-			}
-		}
-	}
-	return false;
-}
-
-search('you');
+def search(name):
+    search_queue = deque()
+    search_queue += graph[name]
+    searched = []
+    
+    while search_queue:
+        person = search_queue.popleft()
+	if not person in searched:
+	    if person_is_seller(person):
+	        print person + " is a mango seller!"
+		return True
+	    else:
+	        search_queue += graph[person]
+		searched.append(person)
+    return False
 ```
 
 **Направленный граф** - граф в котором отношения между узлами, действуют только в одну сторону.
@@ -259,21 +234,20 @@ search('you');
 3. Повторять, пока это не будет сделано для всех узлов графа
 4. Вычислить итоговый путь
 
-### Реализация алгоритма на JavaScript:
+### Реализация алгоритма на Python:
 
 ```
-function find_lowest_cost_node(costs) {
-	lowest_cost = Infinity;
-	lowest_cost_node = null;
-	for (let node in costs) {
-		cost = costs[node];
-		if (cost < lowest_cost && !processed.includes(node)) {
-			lowest_cost = cost;
-			lowest_cost_node = node;
-		}
-	}
-	return lowest_cost_node;
-}
+def find_lowest_cost_node(costs):
+    lowest_cost = float("inf")
+    lowest_cost_node = None
+    
+    for node in costs:
+        cost = costs[node]
+	if cost < lowest_cost and node not in processed:
+	    lowest_cost = cost
+	    lowest_cost_node = node
+    
+    return lowest_cost_node
 
 let graph = {};
 graph['start'] = {};
