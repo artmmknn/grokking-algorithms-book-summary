@@ -188,16 +188,6 @@ print quicksort([10, 5, 2, 3])
 ```
 from collections import deque
 
-graph = {}
-graph["you"] = ["alice", "bob", "claire"]
-graph["bob"] = ["anuj", "peggy"]
-graph["alice"] = ["peggy"]
-graph["claire"] = ["thom", "jonny"]
-graph["anuj"] = []
-graph["peggy"] = []
-graph["thom"] = []
-graph["jonny"] = []
-
 def search(name):
     search_queue = deque()
     search_queue += graph[name]
